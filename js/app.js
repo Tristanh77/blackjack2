@@ -6,7 +6,7 @@ let playerCards = [];
 let shuffle = [];
 let playerValue=0;
 let dealerValue=0;
-let currentIndex = 0
+
 const scores = {
     player: 0,
     dealer: 0,
@@ -32,14 +32,17 @@ document.querySelector('button').addEventListener('click', renderNewShuffledDeck
 
 
 
-
+const valueEls = {
+    player: document.querySelector("#playerValue"),
+    dealer: document.querySelector("#dealerValue")
+}
 
 
 
 const scoreEls = {
     player: document.querySelector("#p-score"),
-    Dealer: document.querySelector("#d-score"),
-    tie: document.querySelector("#t-score"),
+    dealer: document.querySelector("#d-score"),
+    push: document.querySelector("#t-score"),
   };
 
 const dealButton = document.querySelector("#deal");
@@ -51,20 +54,38 @@ hitButton.addEventListener('click', hit);
 const standButton = document.querySelector("#stand");
 standButton.addEventListener('click', stand);
 
+
+const handEls = {
+    player: {
+      imgEl: document.querySelector("#player > img"),
+    },
+    dealer: {
+      imgEl: document.querySelector("#dealer > img"),
+    },
+  };
+
+
 init();
 
 
 function playBJ(){
+    playerValue = 0;
+    dealerValue = 0;
+    playerCards = [];
+    dealerCards = [];
+    shuffleCards();
     playerDraw();
     dealerDraw();
     playerDraw();
     checkPlayerScore();
-    checkDealerScore();
+    render();
+    currentIndex = 0;
 }
 
 function hit(){
     playerDraw();
     checkPlayerScore();
+    render();
 }
 
 
@@ -74,11 +95,11 @@ function checkPlayerScore() {
         scores.dealer += 1;
         console.log(scores.dealer);
     }
-    else if (playerValue == 21) {
-        console.log("Blackjack");
+    else if(playerValue === 21){
         scores.player += 1;
-        console.log(scores.player);
+        console.log("blackjack");
     }
+
 }
 
 function checkDealerScore() {
@@ -87,62 +108,107 @@ function checkDealerScore() {
         scores.player += 1;
         console.log(scores.player);
     }
+    else if (dealerValue === 21){
+        scores.dealer +=1;
+        console.log("dealer blackjack");
+    }
 }
 
 function compareScores() {
-    if ((21 - playerValue) < (21 - dealerValue)){
+    if (checkDealerScore()){
+        checkDealerScore()
+        return
+    }
+    else if (checkPlayerScore()){
+        checkPlayerScore();
+    }
+    else if ((21 - playerValue) < (21 - dealerValue)){
+        scores.player += 1
         console.log("player wins");
     }
-    else if ((21 - playerValue) > (21 - dealerValue)){
+    else if (((21 - playerValue) > (21 - dealerValue)) && (dealerValue < 21)){
+        scores.dealer += 1
         console.log("dealer wins");
     }
-    else {
+    else if (playerValue === dealerValue) {
+        scores.push += 1
         console.log("push");
     }
 }
 
 function playerDraw(){
-    playerCards.push(shuffledDeck[currentIndex]);
-    shuffledDeck.pop();
-    let length = playerCards.length;
-    playerValue += playerCards[length - 1].value;
-    console.log(playerCards);
-    console.log(playerValue);
-    newIndex();
+    //const player1Card = shuffledDeck[currentIndex];
+    playerCards.unshift(shuffledDeck[0]);
+    let drawnCard = shuffledDeck.shift();
+    shuffledDeck.push(drawnCard);
+
+    //let length = (playerCards.length - 1) ;
+    //console.log(playerCards[length],"This is the error");
+    playerValue += playerCards[0].value;
+    //playerValue += player1Card.value;
+
+    //const player2Card = shuffledDeck[currentIndex];
+    //playerCards.push(shuffledDeck[currentIndex]);
+    //shuffledDeck.pop();
+    //playerValue += player2Card.value;
+    console.log(playerCards, "playercards");
+    console.log(playerValue, "playervalue");
+
+    //newIndex();
 }
 function dealerDraw() {
-    dealerCards.push(shuffledDeck[currentIndex]);
-    shuffledDeck.pop();
-    let length = dealerCards.length;
-    dealerValue += dealerCards[length - 1].value;
-    newIndex();
-    console.log(dealerCards);
-    console.log(dealerValue);   
+    //const dealer1Card = shuffledDeck[currentIndex];
+    dealerCards.unshift(shuffledDeck[0]);
+    let drawnCard = shuffledDeck.shift();
+    shuffledDeck.push(drawnCard);
+    // dealerCards.push(shuffledDeck[currentIndex]);
+    // shuffledDeck.slice(1);
+    // dealerValue += dealer1Card.value;
+    // console.log(dealer1Card.value, "dealer value");
+    //let length = dealerCards.length - 1;
+    dealerValue += dealerCards[0].value;
+    //newIndex();
+    console.log(dealerCards, "dealer cards");
+    console.log(dealerValue, "dealer value");   
+   //onsole.log(length);
 }
 function stand(){
     dealerDraw();
-    checkDealerScore();
-    while (dealerValue < 16) {
+    while (dealerValue < 17) {
         dealerDraw();
-        checkDealerScore();
     }
     compareScores();
+    render();
 }
 
+function shuffleCards(){
+    buildMasterDeck()
+    getNewShuffledDeck();
+}
 function init(){
     
     scores.player=0;
     scores.push = 0;
     scores.dealer=0;
-    masterDeck = buildMasterDeck()
-    shuffledDeck = getNewShuffledDeck();
-    
+    shuffleCards();
+    render()
+}
+
+
+function render(){
+    scoreEls.player.textContent = scores.player;
+    scoreEls.dealer.textContent = scores.dealer;
+    scoreEls.push.textContent = scores.push;
+
+    valueEls.player.textContent = playerValue;
+   //console.log(playerValue, "player Value");
+    valueEls.dealer.textContent = dealerValue;
+  
+    renderDeckInContainer(playerCards, handEls.player);
 
 }
 
-function newIndex(){
-    return currentIndex += 1;
-}
+
 
 
 
@@ -163,22 +229,22 @@ function getNewShuffledDeck() {
 function renderNewShuffledDeck() {
   // Create a copy of the masterDeck (leave masterDeck untouched!)
   shuffledDeck = getNewShuffledDeck();
-  // renderDeckInContainer(shuffledDeck, shuffledContainer);
+  renderDeckInContainer(shuffledDeck, handEls.player);
 }
 
-// function renderDeckInContainer(deck, container) {
-//   container.innerHTML = '';
-//   // Let's build the cards as a string of HTML
-//   let cardsHtml = '';
+function renderDeckInContainer(deck, container) {
+    //container.innerHTML = '';
+    // Let's build the cards as a string of HTML
+    //let cardsHtml = '';
 //   deck.forEach(function(card) {
 //     cardsHtml += `<div class="card ${card.face}"></div>`;
 //   });
 //   // Or, use reduce to 'reduce' the array into a single thing - in this case a string of HTML markup 
-//   // const cardsHtml = deck.reduce(function(html, card) {
-//   //   return html + `<div class="card ${card.face}"></div>`;
-//   // }, '');
-//   container.innerHTML = cardsHtml;
-// }
+    const cardsHtml = deck.reduce(function(html, card) {
+        return html + `<div class="card ${card.face}"></div>`;
+        }, '');
+    container.innerHTML = cardsHtml;
+}
 
 function buildMasterDeck() {
   const deck = [];
