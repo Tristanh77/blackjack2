@@ -1,6 +1,6 @@
 console.log("hello");
 
-let winner;
+
 let dealerCards = [];
 let playerCards = [];
 let shuffle = [];
@@ -30,7 +30,7 @@ const shuffledContainer = document.getElementById('shuffled-deck-container');
 /*----- event listeners -----*/
 document.querySelector('button').addEventListener('click', renderNewShuffledDeck);
 
-
+let winner = document.querySelector("#message");
 
 const valueEls = {
     player: document.querySelector("#playerValue"),
@@ -57,10 +57,10 @@ standButton.addEventListener('click', stand);
 
 const handEls = {
     player: {
-      imgEl: document.querySelector("#player > img"),
+      cardEl: document.querySelector("#player"),
     },
     dealer: {
-      imgEl: document.querySelector("#dealer > img"),
+      cardEl: document.querySelector("#dealer"),
     },
   };
 
@@ -73,6 +73,7 @@ function playBJ(){
     dealerValue = 0;
     playerCards = [];
     dealerCards = [];
+    winner.textContent = "";
     shuffleCards();
     playerDraw();
     dealerDraw();
@@ -93,11 +94,13 @@ function checkPlayerScore() {
     if (playerValue > 21) {
         console.log("Bust, You Lost");
         scores.dealer += 1;
+        winner.textContent = "Bust, You Lost";
         console.log(scores.dealer);
     }
     else if(playerValue === 21){
         scores.player += 1;
         console.log("blackjack");
+        winner.textContent = "Blackjack, You Win!";
     }
 
 }
@@ -106,10 +109,12 @@ function checkDealerScore() {
     if (dealerValue > 21) {
         console.log("you win");
         scores.player += 1;
+        winner.textContent = "Dealer Bust, You Win!"
         console.log(scores.player);
     }
     else if (dealerValue === 21){
         scores.dealer +=1;
+        winner.textContent = "Dealer Blackjack, You Lost"
         console.log("dealer blackjack");
     }
 }
@@ -124,14 +129,17 @@ function compareScores() {
     }
     else if ((21 - playerValue) < (21 - dealerValue)){
         scores.player += 1
+        winner.textContent = "You Win!";
         console.log("player wins");
     }
     else if (((21 - playerValue) > (21 - dealerValue)) && (dealerValue < 21)){
         scores.dealer += 1
+        winner.textContent = "Dealer Win, You Lost";
         console.log("dealer wins");
     }
     else if (playerValue === dealerValue) {
         scores.push += 1
+        winner.textContent = "Push";
         console.log("push");
     }
 }
@@ -204,7 +212,8 @@ function render(){
    //console.log(playerValue, "player Value");
     valueEls.dealer.textContent = dealerValue;
   
-    renderDeckInContainer(playerCards, handEls.player);
+    renderDeckInContainer(playerCards, handEls.player.cardEl);
+    renderDeckInContainer(dealerCards, handEls.dealer.cardEl);
 
 }
 
@@ -233,7 +242,7 @@ function renderNewShuffledDeck() {
 }
 
 function renderDeckInContainer(deck, container) {
-    //container.innerHTML = '';
+    container.innerHTML = '';
     // Let's build the cards as a string of HTML
     //let cardsHtml = '';
 //   deck.forEach(function(card) {
