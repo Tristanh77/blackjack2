@@ -5,36 +5,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tristan's BlackJack</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
     <link href="cards/css/card-deck-css/css/cardstarter.css" rel="stylesheet" />
     <link href="css/style.css" rel="stylesheet"/>
     <script defer src= "js/app.js"></script>
 </head>
 <body>
-    <main>
-        <h2>PLAYER</h2>
-        <h2>PUSH</h2>
-        <h2>DEALER</h2>
-        <h1 id="p-score"></h1>
-        <h1 id="t-score"></h1>
-        <h1 id="d-score"></h1>
+    <header id="tristan"><h1 id ="title">Tristan's BlackJack</h1></header>
+
+    <main class = "grid">
+        <div id="scoreboard">
+            <h2>PLAYER</h2><h1 id="p-score"></h1>
+            <h2>PUSH</h2><h1 id="t-score"></h1>
+            <h2>DEALER</h2>
+            <h1 id="d-score"></h1></div>
         <div class="layout">
-            <h2>Dealer Hand</h2>
-            <h4 id="dealerValue"></h4>
+            <h2 id = "dealerHand">Dealer Hand</h2>
             <div class="wrapper">
                 <div class="cards" id="dealer">
                 </div>
             </div>
-            <h2>Player Hand</h2>
-            <h4 id="playerValue"></h4>
+            <h2 id="dealerValue"></h2>
+            <h2 id ="playerHand">Player Hand</h2>
             <div class="wrapper">
                 <div class="cards" id="player">
                 </div>
             </div>
-            <div class="results"><h4 id="message"></h4></div>
-            <div id="disclaimer">Dealer Hits Until 16, Stands on 17</div>
+            <h2 id="playerValue"></h2>
+
+
         <button id="hit">Hit</button>
         <button id ="stand">Stand</button>
         <button id ="deal">Deal</button>
+        <div class="results"><h2 id="message"></h2></div>
       </main>
 </body>
 </html>

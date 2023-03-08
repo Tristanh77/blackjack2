@@ -1,0 +1,98 @@
+body {
+    background-color: rgb(66, 149, 48);
+    height: 100vh;
+
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-rows: 6fr 1fr;
+    grid-column-gap: 40px ;
+}
+#tristan {
+    text-align: center;
+    font-family: 'Lobster', cursive;
+    font-size: 25px;
+}
+
+#scoreboard {
+    border: solid;
+    border-color: black;
+    grid-row: 1;
+    grid-column: 1;
+    align-self: start;
+}
+
+.layout {
+    text-align: center;
+    align-self: stretch;
+}
+
+#dealerHand {
+    color: gold;
+    background-color: red;
+    border: solid;
+    border-color: black;
+    border-style: double;
+    border-width: 5px;
+}
+
+#playerHand {
+    color: gold;
+    background-color: black;
+    border: solid;
+    border-color: red;
+    border-style: double;
+    border-width: 5px;
+}
+
+button {
+    display: inline-block;
+    padding: 15px 60px;
+    font-size: 24px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: gold;
+    background-color: black;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+    font-family: 'Kalam', cursive;
+  }
+  
+  button:hover {background-color: #3e8e41}
+  
+  button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }
+
+ #dealerHand {
+    font-family: 'Kalam', cursive;
+    font-size: 20px;
+ }
+ 
+ #playerHand {
+    font-family: 'Kalam', cursive;
+    font-size: 20px;
+ }
+
+ h2 {
+    font-family: 'Kalam', cursive;
+ }
+
+ #p-score {
+    font-family: 'Kalam', cursive;
+ }
+
+ #t-score {
+    font-family: 'Kalam', cursive;
+ }
+
+ #d-score {
+    font-family: 'Kalam', cursive;
+ }
