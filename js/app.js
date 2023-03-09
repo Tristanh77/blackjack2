@@ -1,6 +1,5 @@
 console.log("hello");
-console.log("test");
-console.log("test2");
+
 
 let dealerCards = [];
 let playerCards = [];
